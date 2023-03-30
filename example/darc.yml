@@ -1,0 +1,10 @@
+project:
+  name: first-cpp-app
+  author: Eric Lee
+  version: 1.0.0 Alpha
+
+dependency:
+  - include: ${DEFAULT_INCLUDE}
+    link: wiringPi
+  - include: ./libtensorflow/include
+    link: ./libtensorflow/libtensorflowlite.a

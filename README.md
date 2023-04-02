@@ -5,6 +5,10 @@
 
 ## Darc CLI
 ### 프로젝트 설정하기
+darc init를 이용하여 기존 C/C++ 프로젝트를 손쉽게 darc 프로젝트로 전환할 수 있습니다.
+```shell
+darc init
+```
 
 ### 프로젝트 빌드
 darc build 명령을 통해 Darc 프로젝트를 컴파일할 수 있습니다.
@@ -24,16 +28,23 @@ darc build
 
 ```yaml
 project:
-  name: first-cpp-app
-  author: Eric Lee
-  version: 1.0.0 Alpha
+   name: first-cpp-app
+   author: darc
+   version: 1.0.0 Alpha
 
 dependency:
-  - include: ${DEFAULT_INCLUDE}
-    link: wiringPi
-  - include: ./libtensorflow/include
-    link: ./libtensorflow/libtensorflowlite.a
+   - include: ./name.h
 ```
 
-### 환경 변수 사용
-darc.yml은 환경변수를 지원합니다.
+## 빌드 엔진
+현재 Darc는 Pennon 빌드 엔진을 기본으로 사용합니다. 오픈 소스 기여자들은 다양한 엔진을 개발하여 Darc에 추가할 수 있습니다.
+
+### Pennon (Alpha Version)
+가장 기초적인 형태의 엔진으로, 모든 소스 코드를 스캔하여 Object 파일로 변환한 뒤 하나의 바이너리로 통합합니다. 소스 코드 해석이 지원되지 않으므로, Object 파일 빌드 시 불필요한 자원 낭비가 발생할 수 있습니다.
+
+추후 소스 코드 해석을 이용하여 선별적인 헤더 파일 포함 기능, 병렬 빌드 기능 등을 제공할 예정입니다.
+
+## Darc의 한계
+Darc는 기존의 cmake를 대체하고자 개발된 것이 아닌, 소형 규모 프로젝트의 빌드를 지원하기 위해 설계되었습니다. 현재 안정성 있는 Build 환경을 보장하지 못하며, cmake 등에서 제공하는 각종 기능들 또한 제공되지 아니합니다.
+
+개발진 또한 이 문제를 잘 인지하고 있으며, 중형~대형 프로젝트에서도 무리 없이 사용할 수 있도록 설계를 개선하고 기능을 추가할 예정입니다.

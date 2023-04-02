@@ -1,5 +1,6 @@
 #include <stdio.h>
+#include "name.h"
 
 int main() {
-    printf("Hello, World!");
+    printf("Hello, %s!\n", getName());
 }

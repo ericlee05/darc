@@ -10,31 +10,34 @@ class ConfigurationReader {
 
   String _convertIncludeAndLink(String original) {
     if(original.startsWith(".")) {
-      original = Path.join(Directory.current.path, original);
+      original = Path.canonicalize(Path.join(Directory.current.path, original));
     }
 
     return original;
   }
 
   ProjectField getProjectInfo() {
-    return ProjectField(_yaml["name"] as String,
-        _yaml["author"] as String,
-        _yaml["version"] as String);
+    return ProjectField(_yaml["project"]["name"] as String,
+        _yaml["project"]["author"] as String,
+        _yaml["project"]["version"] as String);
   }
 
   List<DependencyField> getDependencies() {
     List<DependencyField> dependencies = List.empty(growable: true);
+
+    if(_yaml["dependency"] == null) {
+      return dependencies;
+    }
+
     for (final element in _yaml["dependency"]) {
-      String include = _convertIncludeAndLink(element["include"] as String);
-      String link = _convertIncludeAndLink(element["link"] as String);
+      String? include = (element["include"] != null) ? _convertIncludeAndLink(element["include"] as String) : null;
+      String? link = (element["link"] != null) ? _convertIncludeAndLink(element["link"] as String) : null;
 
       dependencies.add(DependencyField(include, link));
     }
 
     return dependencies;
   }
-
-
 }
 
 class ProjectField {
@@ -45,7 +48,7 @@ class ProjectField {
 }
 
 class DependencyField {
-  String include;
-  String link;
+  String? include;
+  String? link;
   DependencyField(this.include, this.link);
 }
